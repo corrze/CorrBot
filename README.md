@@ -83,7 +83,7 @@ However, I have provided a script that will scan the entire .jsonl file to let y
 
 This matters because the more tokens you allow the longer the training would last and more VRAM you would use. This is because increasing the number of tokens would lead to larger attention matrices, the transformaer layers within process more tokens, which increases memory usage and time to process each batch and epoch.
 
-I trained over 200k examples on MAX_LENGTH = 490 and it took me 25 hours. So if you do not have much time I would recommend either downloaded less and and have a higher max number of tokens or download a lot and have a lower max number of tokens.
+I trained over 200k examples on MAX_LENGTH = 490 and it took me 25 hours. So if you do not have much time I would recommend either download less data and and have a higher max number of tokens or download a lot and have a lower max number of tokens.
 In the case that your messages are just really long, you can decrease the BATCH_SIZE and increase MAX_LENGTH to balance out.
 
 # 7. Fine-tuined the model!
