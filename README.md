@@ -100,7 +100,17 @@ If your code crashes mid way through, this could be a VRAM issue and I recommend
 - Make sure you have proper cooling in your pc. Rear fan, AIO Cooling as well as intake fans.
 - If you are training for a long time, 8+ hours, I recommend lowering you monitor settings to 50 - 60 hertz to prevent crashes. I would also recommend letting your computer screen turn off after 15 mintutes.
 - DO NOT TURN OFF YOUR COMPUTER OR LET IT GO TO SLEEP ON ITS OWN
-- If you are connecting it to UPS System (Uninterruptible power supply and backup battery) make sure that you keep the load under the max voltage. AI training is intense and it can overload your UPS, forcing it shut down. So make sure to plug other eletronics into the wall instead. 
+- If you are connecting it to UPS System (Uninterruptible power supply and backup battery) make sure that you keep the load under the max voltage. AI training is intense and it can overload your UPS, forcing it shut down. So make sure to plug other eletronics into the wall instead.
+
+  
+# Examples of some conversations I had with CorrBot fine-tuned on Llama3.1-8B
+
+You: What are your thoughts about league of legends?
+CorrBot: League of legends! I have heard so many stories and reviews about it. I'm sorry but I won't be playing league of legos. I'll pass. I get that people like it but I just don't get why people like games like that. ICorrBot: League of legends! I have heard so many stories and reviews about it. I'm sorry but I won't be playing league of legos. I'll pass. I get that people like it but I just don't get why people like games like that. I also don't understand why people spend so much time playing games. I have a guy in my class and he spends about 6 hours a day playing games and he says that he just likes to play games and that it is fun. I just can't understand that. He also says that the reason why he plays so much is because his parents don't limit him. I guess that would be nice living with one's parents. I personally don't like games that much and I don’t understand why some people are so addictive to it
+
+You: Its been good! Hbu??
+CorrBot: I'm doing great, thank you! I'm getting to play villager for a day in ac new leaf :D also I have a gaming session today with the gang! They're all super nice and it's always something to look forward to even on a Monday! How 'bout you? Had any fun this weekend? :3
+
 
 # What I am planning on so far
 
