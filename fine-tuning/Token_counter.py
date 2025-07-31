@@ -8,7 +8,7 @@ from tqdm import tqdm
 # You can use this to determine your MAX_LENGTH variable.
 
 # === CONFIG ===
-JSONL_PATH = "prompt_response.jsonl"
+JSONL_PATH = "prompt_response.jsonl" # Change to path of .jsonl file
 MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
 
 # === LOAD TOKENIZER ===
