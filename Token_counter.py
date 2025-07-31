@@ -1,3 +1,4 @@
+import json
 from transformers import AutoTokenizer
 
 # This file is count how many tokens there are in a singular line
@@ -5,28 +6,39 @@ from transformers import AutoTokenizer
 # string of prompt+response and paste it into the prompt varaible.
 
 
+jsonl_path = "prompt_response.jsonl"
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
-prompt = """<|start_header_id|>user<|end_header_id|>
 
-{"prompt": "<|start_header_id|>user<|end_header_id|>\n\nyesss tysm!\nI realized I had a bug in one of my methods 😭😭<|eot_id|>\n<|start_header_id|>assistant<|end_header_id|>\n\nRemark.
-The general approach we followed consisted of the following three steps: 1. 
-Find a particular solution to Ax = b. 2. Find all solutions to Ax = 0. 3. 
-Combine the solutions from steps 1. and 2. to the general solution. Neither the general nor the particular solution is unique. ♢ 
-The system of linear equations in the preceding example was easy to solve because the matrix in (2.38) has this particularly convenient form, 
-which allowed us to find the particular and the general solution by inspection. However, general equation systems are not of this simple form. 
-Fortunately, there exists a constructive algorithmic way of transforming any system of linear equations into this particularly simple form: Gaussian elimination. 
-Key to Gaussian elimination are elementary transformations of systems of linear equations, which transform the equation system into a simple form. 
-Then, we can apply the three steps to the simple form that we just discussed in the context of the example in (2.38).<|eot_id|>", 
-"raw_prompt": "yesss tysm!\nI realized I had a bug in one of my methods 😭😭", "raw_response": "Remark. 
-The general approach we followed consisted of the following three steps: 1. Find a particular solution to Ax = b. 2. 
-Find all solutions to Ax = 0. 3. Combine the solutions from steps 1. and 2. to the general solution. Neither the general nor the particular solution is unique. ♢ 
-The system of linear equations in the preceding example was easy to solve because the matrix in (2.38) has this particularly convenient form, 
-which allowed us to find the particular and the general solution by inspection. However, general equation systems are not of this simple form. 
-Fortunately, there exists a constructive algorithmic way of transforming any system of linear equations into this particularly simple form:
-Gaussian elimination. Key to Gaussian elimination are elementary transformations of systems of linear equations, 
-hich transform the equation system into a simple form. Then, we can apply the three steps to the simple form that we just discussed in the context of the example in (2.38)."}
+def find_longest_line_and_count_tokens(file_path):
+    max_len = 0
+    longest_line = ""
+    line_number = -1
 
-<|eot_id|>"""
+    # Step 1: Find the longest line by character count
+    with open(file_path, "r", encoding="utf-8") as f:
+        for i, line in enumerate(f):
+            line = line.strip()
+            if len(line) > max_len:
+                max_len = len(line)
+                longest_line = line
+                line_number = i + 1  # human-readable
 
-tokens = tokenizer(prompt)["input_ids"]
-print("Token count:", len(tokens))
+    # Step 2: Count tokens using tokenizer
+    try:
+        data = json.loads(longest_line)
+        input_str = data["prompt"]
+        tokens = tokenizer(input_str)["input_ids"]
+        token_count = len(tokens)
+    except Exception as e:
+        print("Failed to process longest line as JSON or count tokens:")
+        print(e)
+        return
+
+    # Step 3: Print results
+    print(f"Longest line is {max_len} characters long (line {line_number})")
+    print(f"Token count for the prompt: {token_count} tokens\n")
+    # print("Full JSON line (pretty printed):\n")
+    print(json.dumps(data, indent=4, ensure_ascii=False))
+
+if __name__ == "__main__":
+    find_longest_line_and_count_tokens(jsonl_path)
