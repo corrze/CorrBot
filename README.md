@@ -10,7 +10,7 @@ I wanted work on this project to compare how big the difference is, between a la
 
 This is my first solo project with AI and I wouldn't say its anywhere near good code. But this project is meant for me to learn how it all works.
 
-# Tutorial (Fine-Tuning a pretrained model) !!!Only for **instagram** messages!!!
+# Tutorial for Beginners (Fine-Tuning a pretrained model) !!!Only for **instagram** messages!!!
 
 NOTE: So far, I have only fine-tuned a model on a dataset, I will be trainig my own model and writing about that at a later date.
 
@@ -74,7 +74,7 @@ I'd recommend changing the INPUT_FOLDER as the path towards your inbox folder.
 However if your inbox folder is in the same directory as the extracting script
 it should automatically find the folder.
 
-# 6. Find your longest line of code in your jsonl file
+# 6. Find your the optimal amonut of tokens to train on
 Run Token_counter.py and find out your .jsonl stats.
 
 When I chose my MAX_LENGTH variable, I didnt use the token counter, I just assumed that most of the exmaples in my .jsonl file would be less than 500 tokens so I literally copied the longest example I could find and counted the number of tokens that way.
