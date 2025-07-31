@@ -10,7 +10,7 @@ I wanted work on this project to compare how big the difference is, between a la
 
 This is my first solo project with AI and I wouldn't say its anywhere near good code. But this project is meant for me to learn how it all works.
 
-# Tutorial for Beginners (Fine-Tuning a pretrained model) !!!Only for **instagram** messages!!!
+# Tutorial for Beginners (Fine-Tuning a pretrained model locally) !!!Only for **instagram** messages!!!
 
 NOTE: So far, I have only fine-tuned a model on a dataset, I will be trainig my own model and writing about that at a later date.
 
