@@ -1,44 +1,39 @@
 import json
 from transformers import AutoTokenizer
+import matplotlib.pyplot as plt
+import numpy as np
+from tqdm import tqdm
 
-# This file is count how many tokens there are in a singular line
-# in your .jsonl file. In order to choose a max_length find the longest
-# string of prompt+response and paste it into the prompt varaible.
+# This file gives you the statistics of your .jsonl file.
+# You can use this to determine your MAX_LENGTH variable.
 
+# === CONFIG ===
+JSONL_PATH = "prompt_response.jsonl"
+MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
 
-jsonl_path = "prompt_response.jsonl"
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
+# === LOAD TOKENIZER ===
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-def find_longest_line_and_count_tokens(file_path):
-    max_len = 0
-    longest_line = ""
-    line_number = -1
+def analyze_lengths(jsonl_path):
+    lengths = []
+    with open(jsonl_path, "r", encoding="utf-8") as f:
+        for line in tqdm(f, desc="Tokenizing prompts"):
+            data = json.loads(line)
+            prompt = data["prompt"]
+            tokens = tokenizer(prompt, truncation=False)["input_ids"]
+            lengths.append(len(tokens))
 
-    # Step 1: Find the longest line by character count
-    with open(file_path, "r", encoding="utf-8") as f:
-        for i, line in enumerate(f):
-            line = line.strip()
-            if len(line) > max_len:
-                max_len = len(line)
-                longest_line = line
-                line_number = i + 1  # human-readable
+    # Convert to NumPy for easier math
+    lengths_np = np.array(lengths)
 
-    # Step 2: Count tokens using tokenizer
-    try:
-        data = json.loads(longest_line)
-        input_str = data["prompt"]
-        tokens = tokenizer(input_str)["input_ids"]
-        token_count = len(tokens)
-    except Exception as e:
-        print("Failed to process longest line as JSON or count tokens:")
-        print(e)
-        return
-
-    # Step 3: Print results
-    print(f"Longest line is {max_len} characters long (line {line_number})")
-    print(f"Token count for the prompt: {token_count} tokens\n")
-    # print("Full JSON line (pretty printed):\n")
-    print(json.dumps(data, indent=4, ensure_ascii=False))
+    print("\n Token Length Stats:")
+    print(f"Total examples: {len(lengths)}")
+    print(f"Longest number of tokens: {np.max(lengths_np)}")
+    print(f"Mean number of tokens: {np.mean(lengths_np):.2f}")
+    print(f"Median number of tokens: {np.median(lengths_np)}")
+    print(f"95th percentile: {np.percentile(lengths_np, 95):.0f}")
+    print(f"99th percentile: {np.percentile(lengths_np, 99):.0f}")
+    print(f"99.9th percentile: {np.percentile(lengths_np, 99.9):.0f}")
 
 if __name__ == "__main__":
-    find_longest_line_and_count_tokens(jsonl_path)
+    analyze_lengths(JSONL_PATH)
