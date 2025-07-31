@@ -15,12 +15,12 @@ This is my first solo project with AI and I wouldn't say its anywhere near good 
 NOTE: So far, I have only fine-tuned a model on a dataset, I will be trainig my own model and writing about that at a later date.
 
 Also I am using Python 3.10.11 for this. It is more stable then the newer version. Other package versions I am using. Below:
-Name: numpy | Version: 1.26.4 | Summary: Fundamental package for array computing in Python
-Name: torch | Version: 2.2.2+cu121 | Summary: Tensors and Dynamic neural networks in Python with strong GPU acceleration
-Name: transformers | Version: 4.54.0 | Summary: State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow
-Name: peft | Version: 0.16.0 | Summary: Parameter-Efficient Fine-Tuning (PEFT)
-Name: accelerate | Version: 1.9.0 | Summary: Accelerate
-Name: bitsandbytes | Version: 0.46.1 | Summary: k-bit optimizers and matrix multiplication routines.
+- Name: numpy | Version: 1.26.4 | Summary: Fundamental package for array computing in Python
+- Name: torch | Version: 2.2.2+cu121 | Summary: Tensors and Dynamic neural networks in Python with strong GPU acceleration
+- Name: transformers | Version: 4.54.0 | Summary: State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow
+- Name: peft | Version: 0.16.0 | Summary: Parameter-Efficient Fine-Tuning (PEFT)
+- Name: accelerate | Version: 1.9.0 | Summary: Accelerate
+- Name: bitsandbytes | Version: 0.46.1 | Summary: k-bit optimizers and matrix multiplication routines.
 
 
 # 1. Make sure your computer can run the fine tuning
