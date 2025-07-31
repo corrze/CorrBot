@@ -23,7 +23,7 @@ Name: accelerate | Version: 1.9.0 | Summary: Accelerate
 Name: bitsandbytes | Version: 0.46.1 | Summary: k-bit optimizers and matrix multiplication routines.
 
 
-# 1. Make sure your computer can run the fine tuning.
+# 1. Make sure your computer can run the fine tuning
 
 If not then I recommend using Google Collab in order to get computing power. I am using an NVIDIA RTX 3090 as it has enough VRAM to fine-tune a larger model. I recommend having at least 16 Gbs of VRAM.
 I am using an 8 Billion parameter model and it uses 13 Gbs of VRAM usually. However when I trained on a larger dataset it used up to 23 Gbs so be aware about this fact when you are training it locally.
@@ -55,14 +55,13 @@ The JSON file(s) will contain all your text messsages and we will be extracting 
 
 It should look like this:
 
-Inbox
-| ---- Convo1
-|         |
-|      message_1
-|
-| ---- Convo2
-|         |
-|      message_2
+Inbox:
+  Conv1
+  Conv2
+  ...
+
+Each Conv file:
+  message_1.json (most will have just one file but it can have muliple messsage_* files)
 
 
 # 4. Clone the repository and download the needed packages
