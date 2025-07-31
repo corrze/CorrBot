@@ -10,7 +10,7 @@ I wanted work on this project to compare how big the difference is, between a la
 
 This is my first solo project with AI and I wouldn't say its anywhere near good code. But this project is meant for me to learn how it all works.
 
-# Tutorial (Fine-Tuning a pretrained model) !!!This guide is only for *instagram* messages.!!!
+# Tutorial (Fine-Tuning a pretrained model) !!!Only for **instagram** messages!!!
 
 NOTE: So far, I have only fine-tuned a model on a dataset, I will be trainig my own model and writing about that at a later date.
 
@@ -54,6 +54,7 @@ Now the important part. So each file in the "inbox" folder holds each of your co
 The JSON file(s) will contain all your text messsages and we will be extracting it.
 
 It should look like this:
+
 Inbox
 | ---- Convo1
 |         |
@@ -89,7 +90,7 @@ This matters because the more tokens you allow the longer the training would las
 I trained over 600k examples on MAX_LENGTH = 490 and it took me 25 hours. So if you do not have much time I would recommend either downloaded less and and have a higher max number of tokens or download a lot and have a lower max number of tokens.
 In the case that your messages are just really long, you can decrease the BATCH_SIZE and increase MAX_LENGTH to balance out.
 
-# 7 Train the model!
+# 7. Train the model!
 Once you have everything figured out, ouptput directory/input directory/max_length size, then
 you can start training! Run every cell and you'll be good to go!
 
