@@ -8,8 +8,9 @@ CorrBot is going to be an LLM trained on my very own messages! You can train you
 
 I wanted work on this project to compare how big the difference is, between a larger model and a smaller model. This is because I got my hands on an Nvidia 3090, a consumer gpu capabable of training AI models,and I wanted to see how well of a model it can train, compared to a company trained model. For context, they train using many AI gpus for days to months. I think my smaller made from scratch model will not be as accurate as the pretrained model but I want to see how bad it is in comparison.
 
+This is my first solo project with AI and I wouldn't say its anywhere near good code. But this project is meant for me to learn how it all works.
 
-# Turtorial (Fine-Tuning a pretrained model) !!!This guide is only for *instagram* messages.!!!
+# Tutorial (Fine-Tuning a pretrained model) !!!This guide is only for *instagram* messages.!!!
 
 NOTE: So far, I have only fine-tuned a model on a dataset, I will be trainig my own model and writing about that at a later date.
 
@@ -24,15 +25,82 @@ Name: bitsandbytes | Version: 0.46.1 | Summary: k-bit optimizers and matrix mult
 
 # 1. Make sure your computer can run the fine tuning.
 
-If not then I recommend using Google Collab in order to get computing power. I am using an NVIDIA RTX 3090 for this as it has enough VRAM to finetune a larger model. I recommend having at least 16 Gbs of VRAM.
-I am using an 8 Billion parameter model and it uses 13 Gbs of VRAM usually. However when I trained on a larger dataset it used up to 23 Gbs so be aware if you are training it locally.
+If not then I recommend using Google Collab in order to get computing power. I am using an NVIDIA RTX 3090 as it has enough VRAM to fine-tune a larger model. I recommend having at least 16 Gbs of VRAM.
+I am using an 8 Billion parameter model and it uses 13 Gbs of VRAM usually. However when I trained on a larger dataset it used up to 23 Gbs so be aware about this fact when you are training it locally.
+
+I would recommend running Llama3.1-3B or even 1B if you do not have 24 Gbs of VRAM.
+As when I trained with QLoRA 4-bit, bf16 activations, and gradient checkpointing, it used up 23 Gbs of VRAM after 25 hours on the 8B model. 
+However, with proper configurations you can make it work.
 
 # 2. Creating a hugging face account and get permission to use your model of choice.
-For this project I used Llama3.1-8B-Instruct by Meta. I haven't used other models just yet but make sure your model is capable of generating text.
+For this project I used Llama3.1-8B-Instruct by Meta. I haven't used other models just yet but make sure your model is capable of generating text. Make sure you are logged in the entire time to access this model.
 
-# 3. Clone the repository and download the needed packages
-pip install torch transformers datasets peft accelerate bitsandbytes xformers huggingface-cli
+# 3. Gathering your messages from instagram
+You can download your messages from instagram over on this url.
+https://help.instagram.com/181231772500920?helpref=about_content
+You can click on the blue "Accounts Center" to directly access the download page.
+- Click on download your information'
+- Click on "Downlooad or transfer informaation"
+- We only want our text messages so "Some of your information"
+- only check off "Messages"
+- Click on "download to device"
+- MAKE SURE format is JSON and Media quality is set to HIGH. 
+You can download as much data as you want. When I chose "Last year" I had a dataset around 60k. Whereas "All time" gave me a 200k dataset.
+- Create files and wait for them get your messages ready.
 
+Okay so now you will get a file with all your messages, however we are only concerned about a file called "inbox"
+You can delete everything else or if you want, you can move those files into the "inbox" folder.
+Now the important part. So each file in the "inbox" folder holds each of your conversations, each conversation holds a JSON FILE.
+The JSON file(s) will contain all your text messsages and we will be extracting it.
+
+It should look like this:
+Inbox
+| ---- Convo1
+|         |
+|      message_1
+|
+| ---- Convo2
+|         |
+|      message_2
+
+
+# 4. Clone the repository and download the needed packages
+Finetuning_Model.ipyn is a Jupyter Notebook, so make sure to install that and everything it requires. You may have to install some other things while on working through these steps. But do not fret! It's not hard at all.
+
+# 4.5 Find out what format your model uses
+Run the text_format.py file in order to figure out what prompt style your data. 
+Read text_format.py to look more into it.
+
+
+# 5. Extract the data from "inbox"
+I'd recommend changing the INPUT_FOLDER as the path towards your inbox folder.
+However if your inbox folder is in the same directory as the extracting script
+it should automatically find the folder.
+
+# 6. Find your longest line of code in your jsonl file
+Run Token_counter.py and find out your .jsonl stats.
+
+When I chose my MAX_LENGTH variable, I didnt use the token counter, I just assumed that most of the exmaples in my .jsonl file would be less than 500 tokens so I literally copied the longest example I could find and counted the number of tokens that way.
+
+However, I have provided a script that will scan the entire .jsonl file to let you choose the best MAX_LENGTH as you'd like.
+
+This matters because the more tokens you allow the longer the training would last and more VRAM you would use. This is because increasing the number of tokens would lead to larger attention matrices, the transformaer layers within process more tokens, which increases memory usage and time to process each batch and epoch.
+
+I trained over 600k examples on MAX_LENGTH = 490 and it took me 25 hours. So if you do not have much time I would recommend either downloaded less and and have a higher max number of tokens or download a lot and have a lower max number of tokens.
+In the case that your messages are just really long, you can decrease the BATCH_SIZE and increase MAX_LENGTH to balance out.
+
+# 7 Train the model!
+Once you have everything figured out, ouptput directory/input directory/max_length size, then
+you can start training! Run every cell and you'll be good to go!
+
+If your code crashes mid way through, this could be a VRAM issue and I recommend you to restart your computer before even training. 
+
+# Tips (that i found the hard way)
+- Have your power option as "High Performance"
+- Make sure you have proper cooling in your pc. Rear fan, AIO Cooling as well as intake fans.
+- If you are training for a long time, 8+ hours, I recommend lowering you monitor settings to 50 - 60 hertz to prevent crashes. I would also recommend letting your computer screen turn off after 15 mintutes.
+- DO NOT TURN OFF YOUR COMPUTER OR LET IT GO TO SLEEP ON ITS OWN
+- If you are connecting it to UPS System (Uninterruptible power supply and backup battery) make sure that you keep the load under the max voltage. AI training is intense and it can overload your UPS, forcing it shut down. So make sure to plug other eletronics into the wall instead. 
 
 # What I am planning on so far
 
