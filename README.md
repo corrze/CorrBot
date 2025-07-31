@@ -89,7 +89,8 @@ In the case that your messages are just really long, you can decrease the BATCH_
 # 7. Fine-tuined the model!
 Once you have everything figured out, ouptput directory/input directory/max_length size, then you can start training! Run every cell and you'll be good to go!
 
-If your code crashes mid way through, this could be a VRAM issue and I recommend you to restart your computer before even training.
+If your code crashes mid way through, this could be a VRAM issue and I recommend you to restart your computer before even training. My computer was forced to restart after closing VSCODE bc of my VRAM overloading.
+When you are finetuning this model I recommend having task manager open as well as VSCODE, this allows you to keep track of your GPU status and temperature as you are fine-tuning. When I was training, it stayed at around 97% utilization and around 80 degrees C. I believe that being around 85 degrees should be okay but if it goes any higher, make sure you have proper cooling so it doesn't interrupt training.
 
 # 8. Test the model with the base model
 Once you finished training your model, it should output a directory with many a few checkpoints. Time to run it through inference.
