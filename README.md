@@ -10,20 +10,18 @@ I wanted to work on this project to compare the performance difference between a
 
 This is my first solo AI project, and while the code may not be perfect, it's a great learning experience for understanding how everything works under the hood.
 
-
 ## Tutorial for Beginners (Fine-Tuning a Pretrained Model Locally)
 > Only for **Instagram** messages!
 
 > ⚠️ So far, I have only fine-tuned a model. Training from scratch will be added later. This guide assumes you know the basics of VS Code and Git.
 
-### 🛠 Python & Package Versions
-- Python: 3.10.11 (More stable than newer versions)
-- numpy: 1.26.4
-- torch: 2.2.2+cu121
-- transformers: 4.54.0
-- peft: 0.16.0
-- accelerate: 1.9.0
-- bitsandbytes: 0.46.1
+Also I am using Python 3.10.11 for this. It is more stable then the newer version. Other package versions I am using. Below:
+- Name: numpy | Version: 1.26.4 | Summary: Fundamental package for array computing in Python
+- Name: torch | Version: 2.2.2+cu121 | Summary: Tensors and Dynamic neural networks in Python with strong GPU acceleration
+- Name: transformers | Version: 4.54.0 | Summary: State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow
+- Name: peft | Version: 0.16.0 | Summary: Parameter-Efficient Fine-Tuning (PEFT)
+- Name: accelerate | Version: 1.9.0 | Summary: Accelerate
+- Name: bitsandbytes | Version: 0.46.1 | Summary: k-bit optimizers and matrix multiplication routines.
 
 
 ## 1. Check Your System Specs
@@ -76,12 +74,19 @@ Adjust `INPUT_FOLDER` in the extractor script. If the script is in the same dire
 
 ## 6. Determine Optimal `max_length`
 
+When I chose my MAX_LENGTH variable, I didnt use the token counter, I just assumed that most of the exmaples in my .jsonl file would be less than 500 tokens so I literally copied the longest example I could find and counted the number of tokens that way.
+
+This matters because the more tokens you allow the longer the training would last and more VRAM you would use. This is because increasing the number of tokens would lead to larger attention matrices, the transformaer layers within process more tokens, which increases memory usage and time to process each batch and epoch.
+
 Run `Token_counter.py` to inspect your `.jsonl` token stats. This helps balance:
 - Training time
 - VRAM usage
 - Model performance
 
-For example:
+I trained over 200k examples on MAX_LENGTH = 490 and it took me 25 hours. So if you do not have much time I would recommend either download less data and and have a higher max number of tokens or download a lot and have a lower max number of tokens.
+In the case that your messages are just really long, you can decrease the BATCH_SIZE and increase MAX_LENGTH to balance out.
+
+So...
 - `MAX_LENGTH = 490` on 200k examples took ~25 hours
 - Long examples → reduce `BATCH_SIZE`, increase `MAX_LENGTH`
 
