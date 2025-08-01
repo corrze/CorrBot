@@ -4,15 +4,12 @@ As of 7/30/2025...
 
 CorrBot is an LLM fine-tuned on my very own messages! You can train your very own [insert name]-Bot as well. This project documents my journey as I explore how to fine-tune and eventually train my own model from scratch.
 
----
-
 ## Motivation
 
 I wanted to work on this project to compare the performance difference between a larger pretrained model and a smaller model I trained myself. Since I have access to an NVIDIA RTX 3090 (a consumer GPU capable of AI training), I was curious to see how my own model would perform compared to large-scale models trained on server farms.
 
 This is my first solo AI project, and while the code may not be perfect, it's a great learning experience for understanding how everything works under the hood.
 
----
 
 ## Tutorial for Beginners (Fine-Tuning a Pretrained Model Locally)
 > Only for **Instagram** messages!
@@ -28,7 +25,6 @@ This is my first solo AI project, and while the code may not be perfect, it's a 
 - accelerate: 1.9.0
 - bitsandbytes: 0.46.1
 
----
 
 ## 1. Check Your System Specs
 
@@ -36,13 +32,10 @@ If your system can’t handle local fine-tuning, consider using Google Colab. I 
 
 Fine-tuning Llama3.1-8B-Instruct used ~13 GB VRAM on small datasets, but up to 23 GB on larger ones. If you have less VRAM, consider using smaller models like Llama3.1-3B or 1B.
 
----
-
 ## 2. Hugging Face Setup
 
 Create a Hugging Face account and request access to your chosen model (e.g., `meta-llama/Llama-3.1-8B-Instruct`). Stay logged in to avoid access issues during fine-tuning.
 
----
 
 ## 3. Download Your Instagram Messages
 
@@ -70,19 +63,16 @@ inbox/
 
 Make sure Jupyter is installed. Run `Finetuning_Model.ipynb` to start. Install any missing packages as needed.
 
----
 
 ## 4.5 Check Model Format
 
 Run `text_format.py` to verify the input prompt format required by your model.
 
----
 
 ## 5. Extract Messages from Inbox
 
 Adjust `INPUT_FOLDER` in the extractor script. If the script is in the same directory as the inbox folder, it will detect it automatically.
 
----
 
 ## 6. Determine Optimal `max_length`
 
@@ -95,18 +85,16 @@ For example:
 - `MAX_LENGTH = 490` on 200k examples took ~25 hours
 - Long examples → reduce `BATCH_SIZE`, increase `MAX_LENGTH`
 
----
 
 ## 7. Fine-Tune the Model
 
 Once directories, data, and hyperparameters are set, run every cell in the notebook.
 
-⚠️ Tips:
+⚠️ NOTE:
 - Restart your PC before training (VRAM cleanup)
 - Monitor GPU usage and temps (~80°C is fine, ~85°C max)
 - Ensure proper cooling (AIO, rear fan, intake)
 
----
 
 ## 8. Run Inference on Fine-Tuned Model
 
@@ -114,15 +102,11 @@ You’ll get checkpoint directories after training. The highest-numbered checkpo
 
 Use `test_bots.py` to try it out with any prompt.
 
----
-
 ## 9. Chat with CorrBot
 
 Edit and run `chat_with_bot.py`. Customize:
 - `temperature`: randomness (lower = more deterministic)
 - `max_new_tokens`: length of response (higher = longer replies, more rambling)
-
----
 
 ## Tips (Learned the Hard Way)
 - Set Windows power mode to **High Performance**
@@ -131,7 +115,6 @@ Edit and run `chat_with_bot.py`. Customize:
 - Let screen sleep after 15 mins (but don’t let PC sleep!)
 - If using a UPS, avoid overloading it — plug heavy devices directly into the wall
 
----
 
 ## Examples (LLaMA 3.1-8B)
 
@@ -172,10 +155,10 @@ CorrBot: Good night! :D LOL I was gonna say Happy New Year but I assumed you alr
 ## What I Plan To Do Next
 
 1. ✅ Fine-tuned on 200k messages using Llama3.1-8B-Instruct with QLoRA
-2. 🧠 Train and fine-tune a ~350M parameter model from scratch
-3. 🔬 Compare results between large and small models
-4. 🌐 Publish results and host on my website
-5. 🎥 Create a video showing everything I learned
+2.  Train and fine-tune a ~350M parameter model from scratch
+3.  Compare results between large and small models
+4.  Publish results and host on my website
+5.  Create a video showing everything I learned
 
 ---
 
