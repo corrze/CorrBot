@@ -37,13 +37,22 @@ Create a Hugging Face account and request access to your chosen model (e.g., `me
 
 ## 3. Download Your Instagram Messages
 
-Go to: https://help.instagram.com/181231772500920
-- Click "Accounts Center"
-- Choose **Download Your Information** > "Some of Your Information"
-- Select **Messages**, format as **JSON**, media quality as **High**
-- Choose "All Time" for more data (I got ~200k messages)
+You can download your messages from instagram over on this url.
+https://help.instagram.com/181231772500920?helpref=about_content
+You can click on the blue "Accounts Center" to directly access the download page.
+- Click on download your information'
+- Click on "Downlooad or transfer informaation"
+- We only want our text messages so "Some of your information"
+- only check off "Messages"
+- Click on "download to device"
+- MAKE SURE format is JSON and Media quality is set to HIGH. 
+You can download as much data as you want. When I chose "Last year" I had a dataset around 60k. Whereas "All time" gave me a 200k dataset.
+- Create files and wait for them get your messages ready.
 
-This will download an `inbox` folder with subfolders for each conversation.
+Okay so now you will get a file with all your messages, however we are only concerned about a file called "inbox"
+You can delete everything else or if you want, you can move those files into the "inbox" folder.
+Now the important part. So each file in the "inbox" folder holds each of your conversations, each conversation holds a JSON FILE.
+The JSON file(s) will contain all your text messsages and we will be extracting it.
 
 Example:
 ```
@@ -103,15 +112,22 @@ Once directories, data, and hyperparameters are set, run every cell in the noteb
 
 ## 8. Run Inference on Fine-Tuned Model
 
-You’ll get checkpoint directories after training. The highest-numbered checkpoint usually has the most training steps.
+Once you finished training your model, it should output a directory with many a few checkpoints. Time to run it through inference.
+So far we have
+1. Prepare and download everything we need
+2. Extracted our data
+3. Filtered and formatted the data properly
+4. Finetuned the model by training it on our data
 
-Use `test_bots.py` to try it out with any prompt.
+Great! Now that we have done all of that we can finally test out our bot. Read through the `test_bots.py` and run it with any prompt you'd like. 
 
 ## 9. Chat with CorrBot
 
-Edit and run `chat_with_bot.py`. Customize:
-- `temperature`: randomness (lower = more deterministic)
-- `max_new_tokens`: length of response (higher = longer replies, more rambling)
+Fill in the required information in `chat_with_bot.py` then run it. Now you should be able to chat with your model. Yippee!!
+
+There are two things I would recommend you to test, "temperature" and "max_new_token".
+- "max_new_token" : How long the bot will speak, the higher the number the more it talk and the more prone it is to ramble. The lower it is, it has a higher chance to cut off mid-thought.
+- "Temperature" : This will decide how chaotic/random it is. Since there is a softmax layer at the output of the model, it predicts the possibilies of all possible next tokens. Lowering the temperature will make it choose the higher probablity more often while if increase the temperature, the softmax will even out the smaller probabilities.
 
 ## Tips (Learned the Hard Way)
 - Set Windows power mode to **High Performance**
