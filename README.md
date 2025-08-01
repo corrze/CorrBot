@@ -128,11 +128,12 @@ There are two things I would recommend you to test, "temperature" and "max_new_t
 - "Temperature" : This will decide how chaotic/random it is. Since there is a softmax layer at the output of the model, it predicts the possibilies of all possible next tokens. Lowering the temperature will make it choose the higher probablity more often while if increase the temperature, the softmax will even out the smaller probabilities.
 
 ## Tips (Learned the Hard Way)
-- Set Windows power mode to **High Performance**
-- Use AIO/rear/intake fans for airflow
-- Set monitors to 60Hz for long sessions
-- Let screen sleep after 15 mins (but don’t let PC sleep!)
-- If using a UPS, avoid overloading it — plug heavy devices directly into the wall
+- Have your power option as "High Performance"
+- Make sure you have proper cooling in your pc. Rear fan, AIO Cooling as well as intake fans.
+- If you are training for a long time, 8+ hours, I recommend lowering you monitor settings to 50 - 60 hertz to prevent crashes. I would also recommend letting your computer screen turn off after 15 mintutes.
+- DO NOT TURN OFF YOUR COMPUTER OR LET IT GO TO SLEEP ON ITS OWN
+- If you are connecting it to UPS System (Uninterruptible power supply and backup battery) make sure that you keep the load under the max voltage. AI training is intense and it can overload your UPS, forcing it shut down. So make sure to plug other eletronics into the wall instead.
+
 
 
 ## Examples (LLaMA 3.1-8B)
