@@ -10,10 +10,8 @@ I wanted to work on this project to compare the performance difference between a
 
 This is my first solo AI project, and while the code may not be perfect, it's a great learning experience for understanding how everything works under the hood.
 
-## Tutorial for Beginners (Fine-Tuning a Pretrained Model Locally)
-> Only for **Instagram** messages!
-
-> ⚠️ So far, I have only fine-tuned a model. Training from scratch will be added later. This guide assumes you know the basics of VS Code and Git.
+## Tutorial for Beginners (Fine-Tuning a Pretrained Model Locally) Only for **Instagram** messages!
+> So far, I have only fine-tuned a model. Training from scratch will be added later. This guide assumes you know the basics of VS Code and Git.
 
 Also I am using Python 3.10.11 for this. It is more stable then the newer version. Other package versions I am using. Below:
 - Name: numpy | Version: 1.26.4 | Summary: Fundamental package for array computing in Python
@@ -104,7 +102,7 @@ So...
 
 Once directories, data, and hyperparameters are set, run every cell in the notebook.
 
-⚠️ NOTE:
+NOTE:
 - Restart your PC before training (VRAM cleanup)
 - Monitor GPU usage and temps (~80°C is fine, ~85°C max)
 - Ensure proper cooling (AIO, rear fan, intake)
@@ -172,7 +170,7 @@ CorrBot: Good night! :D LOL I was gonna say Happy New Year but I assumed you alr
 
 ## What I Plan To Do Next
 
-1. ✅ Fine-tuned on 200k messages using Llama3.1-8B-Instruct with QLoRA
+1. !!! DONE !!! Fine-tuned on 200k messages using Llama3.1-8B-Instruct with QLoRA
 2.  Train and fine-tune a ~350M parameter model from scratch
 3.  Compare results between large and small models
 4.  Publish results and host on my website
