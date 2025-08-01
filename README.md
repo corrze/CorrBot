@@ -12,7 +12,7 @@ This is my first solo project with AI and I wouldn't say its anywhere near good 
 
 # Tutorial for Beginners (Fine-Tuning a pretrained model locally) !!!Only for **instagram** messages!!!
 
-NOTE: So far, I have only fine-tuned a model on a dataset, I will be trainig my own model and writing about that at a later date.
+NOTE: So far, I have only fine-tuned a model on a dataset, I will be trainig my own model and writing about that at a later date. Also this guide assumes that you know the basics of VSCODE and some experience with using Git.
 
 Also I am using Python 3.10.11 for this. It is more stable then the newer version. Other package versions I am using. Below:
 - Name: numpy | Version: 1.26.4 | Summary: Fundamental package for array computing in Python
