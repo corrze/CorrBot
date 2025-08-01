@@ -2,135 +2,152 @@
 
 As of 7/30/2025...
 
-CorrBot is going to be an LLM trained on my very own messages! You can train your very own [insert name]-Bot as well! Here is an easy guide to creating your own persoanlized chatbot. This project is me documenting my journey as I explore how to fine tune as well as train my own model.
+CorrBot is an LLM fine-tuned on my very own messages! You can train your very own [insert name]-Bot as well. This project documents my journey as I explore how to fine-tune and eventually train my own model from scratch.
 
-# Motivation
+---
 
-I wanted work on this project to compare how big the difference is, between a larger model and a smaller model. This is because I got my hands on an Nvidia 3090, a consumer gpu capabable of training AI models,and I wanted to see how well of a model it can train, compared to a company trained model. For context, they train using many AI gpus for days to months. I think my smaller made from scratch model will not be as accurate as the pretrained model but I want to see how bad it is in comparison.
+## Motivation
 
-This is my first solo project with AI and I wouldn't say its anywhere near good code. But this project is meant for me to learn how it all works.
+I wanted to work on this project to compare the performance difference between a larger pretrained model and a smaller model I trained myself. Since I have access to an NVIDIA RTX 3090 (a consumer GPU capable of AI training), I was curious to see how my own model would perform compared to large-scale models trained on server farms.
 
-# Tutorial for Beginners (Fine-Tuning a pretrained model locally) !!!Only for **instagram** messages!!!
+This is my first solo AI project, and while the code may not be perfect, it's a great learning experience for understanding how everything works under the hood.
 
-NOTE: So far, I have only fine-tuned a model on a dataset, I will be trainig my own model and writing about that at a later date. Also this guide assumes that you know the basics of VSCODE and some experience with using Git.
+---
 
-Also I am using Python 3.10.11 for this. It is more stable then the newer version. Other package versions I am using. Below:
-- Name: numpy | Version: 1.26.4 | Summary: Fundamental package for array computing in Python
-- Name: torch | Version: 2.2.2+cu121 | Summary: Tensors and Dynamic neural networks in Python with strong GPU acceleration
-- Name: transformers | Version: 4.54.0 | Summary: State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow
-- Name: peft | Version: 0.16.0 | Summary: Parameter-Efficient Fine-Tuning (PEFT)
-- Name: accelerate | Version: 1.9.0 | Summary: Accelerate
-- Name: bitsandbytes | Version: 0.46.1 | Summary: k-bit optimizers and matrix multiplication routines.
+## Tutorial for Beginners (Fine-Tuning a Pretrained Model Locally)
+> Only for **Instagram** messages!
 
+> ⚠️ So far, I have only fine-tuned a model. Training from scratch will be added later. This guide assumes you know the basics of VS Code and Git.
 
-# 1. Make sure your computer can run the fine tuning
+### 🛠 Python & Package Versions
+- Python: 3.10.11 (More stable than newer versions)
+- numpy: 1.26.4
+- torch: 2.2.2+cu121
+- transformers: 4.54.0
+- peft: 0.16.0
+- accelerate: 1.9.0
+- bitsandbytes: 0.46.1
 
-If not then I recommend using Google Collab in order to get computing power. I am using an NVIDIA RTX 3090 as it has enough VRAM to fine-tune a larger model. I recommend having at least 16 Gbs of VRAM.
-I am using an 8 Billion parameter model and it uses 13 Gbs of VRAM usually. However when I trained on a larger dataset it used up to 23 Gbs so be aware about this fact when you are training it locally.
+---
 
-I would recommend running Llama3.1-3B or even 1B if you do not have 24 Gbs of VRAM.
-As when I trained with QLoRA 4-bit, bf16 activations, and gradient checkpointing, it used up 23 Gbs of VRAM after 25 hours on the 8B model. 
-However, with proper configurations you can make it work.
+## 1. Check Your System Specs
 
-# 2. Creating a hugging face account and get permission to use your model of choice.
-For this project I used Llama3.1-8B-Instruct by Meta. I haven't used other models just yet but make sure your model is capable of generating text. Make sure you are logged in the entire time to access this model.
+If your system can’t handle local fine-tuning, consider using Google Colab. I use an NVIDIA RTX 3090 with 24 GB VRAM.
 
-# 3. Gathering your messages from instagram
-You can download your messages from instagram over on this url.
-https://help.instagram.com/181231772500920?helpref=about_content
-You can click on the blue "Accounts Center" to directly access the download page.
-- Click on download your information'
-- Click on "Downlooad or transfer informaation"
-- We only want our text messages so "Some of your information"
-- only check off "Messages"
-- Click on "download to device"
-- MAKE SURE format is JSON and Media quality is set to HIGH. 
-You can download as much data as you want. When I chose "Last year" I had a dataset around 60k. Whereas "All time" gave me a 200k dataset.
-- Create files and wait for them get your messages ready.
+Fine-tuning Llama3.1-8B-Instruct used ~13 GB VRAM on small datasets, but up to 23 GB on larger ones. If you have less VRAM, consider using smaller models like Llama3.1-3B or 1B.
 
-Okay so now you will get a file with all your messages, however we are only concerned about a file called "inbox"
-You can delete everything else or if you want, you can move those files into the "inbox" folder.
-Now the important part. So each file in the "inbox" folder holds each of your conversations, each conversation holds a JSON FILE.
-The JSON file(s) will contain all your text messsages and we will be extracting it.
+---
 
-It should look like this:
+## 2. Hugging Face Setup
 
-Inbox: Conv1, Conv2, ... , Conv*
+Create a Hugging Face account and request access to your chosen model (e.g., `meta-llama/Llama-3.1-8B-Instruct`). Stay logged in to avoid access issues during fine-tuning.
 
-Each Conv file: message_1.json, ... , message_*.json
-(most will have just one file but it can have muliple messsage_* files)
+---
 
+## 3. Download Your Instagram Messages
 
-# 4. Clone the repository and download the needed packages
-Finetuning_Model.ipyn is a Jupyter Notebook, so make sure to install that and everything it requires. You may have to install some other things while on working through these steps. But do not fret! It's not hard at all.
+Go to: https://help.instagram.com/181231772500920
+- Click "Accounts Center"
+- Choose **Download Your Information** > "Some of Your Information"
+- Select **Messages**, format as **JSON**, media quality as **High**
+- Choose "All Time" for more data (I got ~200k messages)
 
-# 4.5 Find out what format your model uses
-Run the text_format.py file in order to figure out what prompt style your data. 
-Read text_format.py to look more into it.
+This will download an `inbox` folder with subfolders for each conversation.
 
+Example:
+```
+inbox/
+  conv1/
+    message_1.json
+  conv2/
+    message_1.json
+  ...
+```
 
-# 5. Extract the data from "inbox"
-I'd recommend changing the INPUT_FOLDER as the path towards your inbox folder.
-However if your inbox folder is in the same directory as the extracting script
-it should automatically find the folder.
+---
 
-# 6. Find your the optimal amonut of tokens to train on
-Run Token_counter.py and find out your .jsonl stats.
+## 4. Clone the Repository & Install Requirements
 
-When I chose my MAX_LENGTH variable, I didnt use the token counter, I just assumed that most of the exmaples in my .jsonl file would be less than 500 tokens so I literally copied the longest example I could find and counted the number of tokens that way.
+Make sure Jupyter is installed. Run `Finetuning_Model.ipynb` to start. Install any missing packages as needed.
 
-However, I have provided a script that will scan the entire .jsonl file to let you choose the best MAX_LENGTH as you'd like.
+---
 
-This matters because the more tokens you allow the longer the training would last and more VRAM you would use. This is because increasing the number of tokens would lead to larger attention matrices, the transformaer layers within process more tokens, which increases memory usage and time to process each batch and epoch.
+## 4.5 Check Model Format
 
-I trained over 200k examples on MAX_LENGTH = 490 and it took me 25 hours. So if you do not have much time I would recommend either download less data and and have a higher max number of tokens or download a lot and have a lower max number of tokens.
-In the case that your messages are just really long, you can decrease the BATCH_SIZE and increase MAX_LENGTH to balance out.
+Run `text_format.py` to verify the input prompt format required by your model.
 
-# 7. Fine-tuined the model!
-Once you have everything figured out, ouptput directory/input directory/max_length size, then you can start training! Run every cell and you'll be good to go!
+---
 
-If your code crashes mid way through, this could be a VRAM issue and I recommend you to restart your computer before even training. My computer was forced to restart after closing VSCODE bc of my VRAM overloading.
-When you are finetuning this model I recommend having task manager open as well as VSCODE, this allows you to keep track of your GPU status and temperature as you are fine-tuning. When I was training, it stayed at around 97% utilization and around 80 degrees C. I believe that being around 85 degrees should be okay but if it goes any higher, make sure you have proper cooling so it doesn't interrupt training.
+## 5. Extract Messages from Inbox
 
-# 8. Test the model with the base model
-Once you finished training your model, it should output a directory with many a few checkpoints. Time to run it through inference.
-So far we have
-1. Prepare and download everything we need
-2. Extracted our data
-3. Filtered and formatted the data properly
-4. Finetuned the model by training it on our data
+Adjust `INPUT_FOLDER` in the extractor script. If the script is in the same directory as the inbox folder, it will detect it automatically.
 
-Great! Now that we have done all of that we can finally test out our bot. Read through the "test_bots.py" and run it with any prompt you'd like. After fine-tuning these models you would have a lot of "checkpoints" these are the data that it saved during your training, they show what steps they stop on. It would make sense to choose the check point with the highest number as it has trained on more data.
+---
 
-# 9. Chat with your bot!
-Fill in the required information in "chat_with_bot.py" then run it. Now you should be able to chat with your model. Yippee!!
+## 6. Determine Optimal `max_length`
 
-There are two things I would recommend you to test, "temperature" and "max_new_token".
-- "max_new_token" : How long the bot will speak, the higher the number the more it talk and the more prone it is to ramble. The lower it is, it has a higher chance to cut off mid-thought.
-- "Temperature" : This will decide how chaotic/random it is. Since there is a softmax layer at the output of the model, it predicts the possibilies of all possible next tokens. Lowering the temperature will make it choose the higher probablity more often while if increase the temperature, the softmax will even out the smaller probabilities.
+Run `Token_counter.py` to inspect your `.jsonl` token stats. This helps balance:
+- Training time
+- VRAM usage
+- Model performance
 
+For example:
+- `MAX_LENGTH = 490` on 200k examples took ~25 hours
+- Long examples → reduce `BATCH_SIZE`, increase `MAX_LENGTH`
 
-# Tips (that i found the hard way)
-- Have your power option as "High Performance"
-- Make sure you have proper cooling in your pc. Rear fan, AIO Cooling as well as intake fans.
-- If you are training for a long time, 8+ hours, I recommend lowering you monitor settings to 50 - 60 hertz to prevent crashes. I would also recommend letting your computer screen turn off after 15 mintutes.
-- DO NOT TURN OFF YOUR COMPUTER OR LET IT GO TO SLEEP ON ITS OWN
-- If you are connecting it to UPS System (Uninterruptible power supply and backup battery) make sure that you keep the load under the max voltage. AI training is intense and it can overload your UPS, forcing it shut down. So make sure to plug other eletronics into the wall instead.
+---
 
-  
-# Examples | CorrBot fine-tuned on Llama3.1-8B, 200k examples 
+## 7. Fine-Tune the Model
 
-You: What are your thoughts about league of legends?  
-CorrBot: League of legends! I have heard so many stories and reviews about it. I'm sorry but I won't be playing league of legos. I'll pass. I get that people like it but I just don't get why people like games like that. I also don't understand why people spend so much time playing games. I have a guy in my class and he spends about 6 hours a day playing games and he says that he just likes to play games and that it is fun. I just can't understand that. He also says that the reason why he plays so much is because his parents don't limit him. I guess that would be nice living with one's parents. I personally don't like games that much and I don’t understand why some people are so addictive to it.
+Once directories, data, and hyperparameters are set, run every cell in the notebook.
 
+⚠️ Tips:
+- Restart your PC before training (VRAM cleanup)
+- Monitor GPU usage and temps (~80°C is fine, ~85°C max)
+- Ensure proper cooling (AIO, rear fan, intake)
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---
 
+## 8. Run Inference on Fine-Tuned Model
+
+You’ll get checkpoint directories after training. The highest-numbered checkpoint usually has the most training steps.
+
+Use `test_bots.py` to try it out with any prompt.
+
+---
+
+## 9. Chat with CorrBot
+
+Edit and run `chat_with_bot.py`. Customize:
+- `temperature`: randomness (lower = more deterministic)
+- `max_new_tokens`: length of response (higher = longer replies, more rambling)
+
+---
+
+## Tips (Learned the Hard Way)
+- Set Windows power mode to **High Performance**
+- Use AIO/rear/intake fans for airflow
+- Set monitors to 60Hz for long sessions
+- Let screen sleep after 15 mins (but don’t let PC sleep!)
+- If using a UPS, avoid overloading it — plug heavy devices directly into the wall
+
+---
+
+## Examples (LLaMA 3.1-8B)
+
+### 🔸 200k Examples
+```
+You: What are your thoughts about league of legends?
+CorrBot: League of legends! I have heard so many stories and reviews about it. I'm sorry but I won't be playing league of legos. I'll pass. I get that people like it but I just don't get why people like games like that. I also don't understand why people spend so much time playing games. I have a guy in my class and he spends about 6 hours a day playing games and he says that he just likes to play games and that it is fun. I just can't understand that. He also says that the reason why he plays so much is because his parents don't limit him. I guess that would be nice living with one's parents. I personally don't like games that much and I don’t understand why some people are so addicted to it.
+```
+
+```
 You: Its been good! Hbu??
-CorrBot: I'm doing great, thank you! I'm getting to play villager for a day in ac new leaf :D also I have a gaming session today with the gang! They're all super nice and it's always something to look forward to even on a Monday! How 'bout you? Had any fun this weekend? :3
+CorrBot: I'm doing great, thank you! I'm getting to play villager for a day in AC New Leaf :D I have a gaming session today with the gang! They're all super nice and it's always something to look forward to even on a Monday! How 'bout you? Had any fun this weekend? :3
+```
 
-# CorrBot fine-tuned on Llama3.1-8B, 60k examples 
-
+### 🔹 60k Examples
+```
 You: Good Morning
 CorrBot: GOOD MORNING!!! how's the morning hangout sesh going so far?
 
@@ -140,19 +157,26 @@ CorrBot: I'm doing well thanks for asking! 😃 I'm here to help with any questi
 You: That's great! Give me some motivation to do my homework.
 CorrBot: You can do it!!! Also, remind yourself that it only gets easier from here! (I'm assuming you're taking 333) We got this! You've made it this far, you can keep going! Also, it's not forever, you'll get to the other side and it'll be worth it! 🙌 Keep pushing! You're doing great! 🤓
 
-You: Im not taking 333 but thank you so much!
+You: I'm not taking 333 but thank you so much!
 CorrBot: I'm sorry to hear that 😭 maybe next quarter! And ya no worries, I'm not taking it either! I'm here to help with any questions you have though! 🥹🥹 🤠🤠
 
-You: Its been a good chat!
-CorrBot: It was nice chatting with you too! I don't usually talk to people so you were a nice surprise! Have a good day! :)  I also wanted to wish you happy new years if you celebrate! I hope you had a good new years as well!
+You: It’s been a good chat!
+CorrBot: It was nice chatting with you too! I don't usually talk to people so you were a nice surprise! Have a good day! :)  I also wanted to wish you Happy New Years if you celebrate! I hope you had a good New Years as well!
 
-You: Its not new years but thank you! Good night
-CorrBot: Good night! :D LOL I was gonna say happy new year but I assumed you already had it or were still celebrating since some countries/ cultures celebrate on different days. I hope your remaining 2024 is as good as you want it to be! :3 Sleep well! tips virtual top hat
+You: It’s not New Years but thank you! Good night
+CorrBot: Good night! :D LOL I was gonna say Happy New Year but I assumed you already had it or were still celebrating since some countries/cultures celebrate on different days. I hope your remaining 2024 is as good as you want it to be! :3 Sleep well! *tips virtual top hat*
+```
 
+---
 
-# What I am planning on so far
+## What I Plan To Do Next
 
-1. !!!!! DONEEEE !!!!!!   Fine-Tune on 200k lines of prompt+respone data using Llama3.1-8B-Instruct with LoRA
-2. Training and creating a model from scratch ~350M parameters and fine-tune on that
-4. Compare the models together to see the differences.
-5. Put on my website and create a video to show findings.
+1. ✅ Fine-tuned on 200k messages using Llama3.1-8B-Instruct with QLoRA
+2. 🧠 Train and fine-tune a ~350M parameter model from scratch
+3. 🔬 Compare results between large and small models
+4. 🌐 Publish results and host on my website
+5. 🎥 Create a video showing everything I learned
+
+---
+
+Thanks for reading and good luck creating your own personalized AI bot!
