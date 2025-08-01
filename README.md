@@ -154,8 +154,6 @@ CorrBot: It was nice chatting with you too! I don't usually talk to people so yo
 You: It’s not New Years but thank you! Good night
 CorrBot: Good night! :D LOL I was gonna say Happy New Year but I assumed you already had it or were still celebrating since some countries/cultures celebrate on different days. I hope your remaining 2024 is as good as you want it to be! :3 Sleep well! *tips virtual top hat*
 
----
-
 ## What I Plan To Do Next
 
 1. ✅ Fine-tuned on 200k messages using Llama3.1-8B-Instruct with QLoRA
