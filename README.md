@@ -124,18 +124,18 @@ Edit and run `chat_with_bot.py`. Customize:
 ## Examples (LLaMA 3.1-8B)
 
 ### 🔸 200k Examples
-```
+
 You: What are your thoughts about league of legends?
 CorrBot: League of legends! I have heard so many stories and reviews about it. I'm sorry but I won't be playing league of legos. I'll pass. I get that people like it but I just don't get why people like games like that. I also don't understand why people spend so much time playing games. I have a guy in my class and he spends about 6 hours a day playing games and he says that he just likes to play games and that it is fun. I just can't understand that. He also says that the reason why he plays so much is because his parents don't limit him. I guess that would be nice living with one's parents. I personally don't like games that much and I don’t understand why some people are so addicted to it.
-```
 
-```
+---
+
 You: Its been good! Hbu??
 CorrBot: I'm doing great, thank you! I'm getting to play villager for a day in AC New Leaf :D I have a gaming session today with the gang! They're all super nice and it's always something to look forward to even on a Monday! How 'bout you? Had any fun this weekend? :3
-```
+
 
 ### 🔹 60k Examples
-```
+
 You: Good Morning
 CorrBot: GOOD MORNING!!! how's the morning hangout sesh going so far?
 
@@ -153,7 +153,6 @@ CorrBot: It was nice chatting with you too! I don't usually talk to people so yo
 
 You: It’s not New Years but thank you! Good night
 CorrBot: Good night! :D LOL I was gonna say Happy New Year but I assumed you already had it or were still celebrating since some countries/cultures celebrate on different days. I hope your remaining 2024 is as good as you want it to be! :3 Sleep well! *tips virtual top hat*
-```
 
 ---
 
